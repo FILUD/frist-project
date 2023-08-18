@@ -1,0 +1,148 @@
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Text Styles */
+.text-01-home {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Item Container */
+.item-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.item-wrapper {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* Button Styles */
+.item-least {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+  transition: 0.7s;
+  border: #007bff solid 1px;
+  border-radius: 20px;
+}
+
+.item-most {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+  transition: 0.7s;
+  border: #007bff solid 1px;
+  border-radius: 20px;
+}
+
+.item-most:hover {
+  background-color: #007bff;
+  filter: drop-shadow(0 0 2rem rgba(0, 60, 255, 0.562));
+  color: white;
+}
+
+.item-least:hover {
+  background-color: #ff0000;
+  filter: drop-shadow(0 0 2rem rgba(0, 60, 255, 0.562));
+  color: white;
+}
+
+.item-most.checked-most {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.item-least.checked-least {
+  background-color: #f1261f;
+  color: #fff;
+}
+
+/* Checkmark Logo */
+.logo-check {
+  width: 20px;
+  position: absolute;
+  margin-top: -50px;
+  margin-left: 5px;
+}
+
+/* Background Container */
+.background {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Next Button */
+.div-button-next {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  height: 40px;
+  margin-right: 55vw;
+  margin-bottom: 3%;
+padding-top: 30px;
+}
+
+.button-next {
+  position: sticky;
+  font-size: 18px;
+  width: 12vw;
+  height: 120%;
+  cursor: pointer;
+  right: 0;
+  bottom: 0;
+  margin-left: 96%;
+  background-color: #007bff;
+  color: #ffffff;
+  border-radius: 10px;
+  transition: 1.5s;
+  border: #ffffff solid 2px;
+}
+
+.button-next:hover {
+  color: #007bff;
+  background-color: #ffffff;
+  border: #007bff solid 2px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .item {
+    margin-bottom: 15px;
+  }
+
+  .button-next {
+    width: 30vw;
+    margin-left: 80%;
+  }
+
+  .div-button-next {
+    position: relative;
+  }
+
+}

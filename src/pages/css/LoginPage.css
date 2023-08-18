@@ -1,0 +1,156 @@
+/* Style for the login container */
+.error-message {
+  margin-bottom: 5vw;
+}
+
+.no-border {
+  border: 0 !important;
+  z-index: 9999;
+  width: 10vw;
+}
+
+iconHtml {
+  width: 10vw;
+}
+
+.bg-color {
+  background-color: rgba(0, 0, 0, 0);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  margin-right: -25vw;
+
+}
+
+.login-container {
+  position: relative;
+  margin-left: -20vw;
+  margin-top: 16vh;
+  display: inline;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the login form */
+.login-form {
+  position: absolute;
+  margin-top: 16vh;
+  background-color: #f8f4f400;
+  padding: 2vw;
+  padding-bottom: 5%;
+  width: 40vw;
+  max-width: 815px;
+  height: auto;
+  border-radius: 20px;
+  border: 2px solid black;
+  margin-left: 20vw;
+}
+
+
+.box-text {
+  font-size: 2vw;
+  margin-left: 0vw;
+  text-align: left;
+
+}
+
+.btn-try {
+  color: #2b92d4;
+  background-color: white;
+  border: 2px solid #2b92d4;
+  border-radius: 0.5vw;
+  width: 30%;
+  max-width: 300px;
+  height: 10%;
+  font-size: 2.5vw;
+  margin-top: 2vw;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+.btn-try:hover {
+  background-color: #2b92d4;
+  color: white;
+  border: 2px solid white;
+}
+
+.h1-login {
+  font-size: 5vw;
+  text-align: left;
+  margin: 0;
+}
+
+.google-button {
+  background-color: #2b92d4;
+  color: white;
+  margin-top: 2%;
+  width: 60%;
+  max-width: 200px;
+  height: 10%;
+  font-size: 3vw;
+  border: none;
+  border-radius: 1vw;
+  cursor: pointer;
+}
+
+.img-bg-login {
+  z-index: -10;
+  position: absolute;
+  opacity: 0.6;
+  width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width: 480px) {
+  .google-button {
+    width: 80%;
+    margin-top: 5%;
+  }
+
+  .login-form {
+    padding: 5vw;
+    border-radius: 2vw;
+    width: 85vw;
+    margin-bottom: 25%;
+    margin-left: 5px;
+    justify-items: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .img-bg-login {
+    width: 100%;
+  }
+
+  .box-text {
+    font-size: 5vw;
+    margin-left: 3vw;
+    position: absolute;
+    margin-top: 25%;
+    text-align: left;
+    top: 0;
+  }
+  .h1-login {
+    font-size: 10vw;
+  }
+  .btn-try { 
+    height: 30px;
+    border-radius: 7px;
+  }
+  .h101-login {
+    margin-bottom: -10px;
+  }
+  .login-container {
+    margin-top: -15vh;
+    margin-left: -16vw;
+  }
+  .bg-color {
+    display: block;
+  }
+}
