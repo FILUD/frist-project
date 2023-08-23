@@ -15,7 +15,6 @@ import DetailPage from './pages/DetailPage';
 import Scrollab from './components/Scrollab';
 
 import TestApi from './pages/testapi';
-
 import axios from 'axios';
 
 function App() {
@@ -23,6 +22,7 @@ function App() {
   const clientId = '72831622081-thqra06krh8p7murespj7d3raettjdfk.apps.googleusercontent.com';
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const Loginstate = localStorage.getItem('userEmail');
 
   return (
     <div>
@@ -34,11 +34,9 @@ function App() {
           <Scrollab />
           <Routes>
 
-            <Route path="/" element={<Navigate to="/login" />} />
-
             <Route path="/login" element={<LoginPage setLoggedIn={setLoggedIn} />} />
 
-            {loggedIn ? (
+            {Loginstate ? (
               <>
             <Route path="/test" element={<TestApi />} />
 
@@ -51,7 +49,7 @@ function App() {
             <Route path="/result" element={<ResultPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/myprofile" element={<ProfilePage />} />
-            <Route path="*" element={<Navigate to="/login" />} />
+
             </>
             ) : (
               <Route path="*" element={<Navigate to="/login" />} /> 

@@ -13,7 +13,6 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ setLoggedIn }) => {
 
-  //create from https://console.cloud.google.com/projectselector2/apis/credentials/consent?supportedpurview=project
   const clientId = '936930992538-6pkkdh1hf45lacko0scjo0oh2gtc3jam.apps.googleusercontent.com';
 
   const [profile, setProfile] = useState<any>(null);
@@ -70,6 +69,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setLoggedIn }) => {
     setProfile(null);
     setLoggedIn(false);
   };
+
 
   const [loginError, setLoginError] = useState('');
 
