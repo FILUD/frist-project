@@ -1,8 +1,12 @@
-/* Style for the login container */
+
+
+
 .error-message {
   margin-bottom: 5vw;
 }
-
+.body-login {
+  width: 100vw;
+}
 .no-border {
   border: 0 !important;
   z-index: 9999;
@@ -20,7 +24,6 @@ iconHtml {
   align-items: center;
   justify-items: center;
   margin-right: -25vw;
-
 }
 
 .login-container {
@@ -38,7 +41,7 @@ iconHtml {
 
 /* Style for the login form */
 .login-form {
-  position: absolute;
+  position: relative;
   margin-top: 16vh;
   background-color: #f8f4f400;
   padding: 2vw;
@@ -48,15 +51,14 @@ iconHtml {
   height: auto;
   border-radius: 20px;
   border: 2px solid black;
-  margin-left: 20vw;
+  margin-right: 10vw;
 }
 
 
 .box-text {
   font-size: 2vw;
-  margin-left: 0vw;
+  margin-left: 15vw;
   text-align: left;
-
 }
 
 .btn-try {
@@ -84,7 +86,10 @@ iconHtml {
   text-align: left;
   margin: 0;
 }
-
+.h101-login {
+font-size: 4vw;
+font-weight: bold;
+}
 .google-button {
   background-color: #2b92d4;
   color: white;
@@ -115,9 +120,9 @@ iconHtml {
   .login-form {
     padding: 5vw;
     border-radius: 2vw;
-    width: 85vw;
+    width: 65vw;
     margin-bottom: 25%;
-    margin-left: 5px;
+    margin-left: 45px;
     justify-items: center;
     align-items: center;
     position: absolute;
@@ -129,25 +134,31 @@ iconHtml {
   }
 
   .box-text {
+    z-index: -1;
     font-size: 5vw;
     margin-left: 3vw;
     position: absolute;
-    margin-top: 25%;
+    margin-top: 30%;
     text-align: left;
     top: 0;
   }
+
   .h1-login {
     font-size: 10vw;
+    margin-bottom: -24px;
   }
   .btn-try { 
     height: 30px;
     border-radius: 7px;
   }
   .h101-login {
-    margin-bottom: -10px;
+    margin-bottom: -30px;
+    font-size: 7vw;
+    font-weight: bold;
+
   }
   .login-container {
-    margin-top: -15vh;
+    margin-top: -101px;
     margin-left: -16vw;
   }
   .bg-color {

@@ -1,5 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './css/ResultPage.css';
+import { type } from 'os';
+import axios from 'axios';
+
+interface CategoryData {
+  id: number;
+  categoryNameTh: string | null;
+  categoryNameEn: string | null;
+  description_th: string;
+  description_en: string;
+  choiceEntities: any;
+  historyEntities: any;
+}
 
 const ResultPage: React.FC = () => {
   const [showResult, setShowResult] = useState(false);
@@ -7,8 +19,10 @@ const ResultPage: React.FC = () => {
   const [result, setResult] = useState<{ animal: string; percentage: number } | null>(null);
   const [mostAnimalDescriptions, setMostAnimalDescriptions] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [categoryData, setCategoryData] = useState<CategoryData | null>(null);
 
-  
+
+
   const [SaveStatus, setSaveStatus] = useState(false);
 
   interface Animal {
@@ -42,6 +56,8 @@ const ResultPage: React.FC = () => {
       console.error('An error occurred while sending history data:', error);
     }
   };
+
+
 
   useEffect(() => {
     const mostAnimalData = localStorage.getItem('mostAnimal');
@@ -101,6 +117,7 @@ const ResultPage: React.FC = () => {
           const delayTimeout = setTimeout(() => {
             handleSendDataDetail();
             setIsVisible(true);
+            fetchCategoryData(categoryId);
           }, 1000)
         } else {
           console.error('User email not found in localStorage.');
@@ -174,44 +191,96 @@ const ResultPage: React.FC = () => {
   const Desription = localStorage.getItem('userData');
   if (Desription) {
     const userData = JSON.parse(Desription);
-    console.log(userData.choiceTh); 
+    console.log(userData.choiceTh);
   } else {
     console.log('No data found in localStorage.');
   }
 
+  //fetch data description
+  const fetchCategoryData = async (categoryId: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/get/description?categoryId=${categoryId}`);
+      setCategoryData(response.data);
+    } catch (error) {
+      console.error('Error fetching category data:', error);
+    }
+  };
+
+  //change language
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+  }, [selectedLanguage]);
 
   return (
     <div>
-      {loading && (
-        <div className="loading-popup">
-          <center>
-            <h2 className='loader-line'>Loading...</h2>
-          </center>
-        </div>
-      )}
-      {showResult && result && (
-        <div>
-          <center className='header-text'>
-            <h1 className='h1-result'>Result</h1>
-          </center>
-          <center>
-            <div className='box-item'>
-            
-              <img className='item-img' src={`/icon/${result.animal}.png`} alt={result.animal} />
-              <strong><p className='p-result'>❖ {result.animal.charAt(0).toUpperCase() + result.animal.slice(1)} ❖</p></strong>
+      {selectedLanguage === 'en' ? (
+        <>
+          {loading && (
+            <div className="loading-popup">
+              <center>
+                <h2 className='loader-line'>Loading...</h2>
+              </center>
             </div>
-            <div className='container-description'>
-              <h3 className='text-description'>Description :</h3>
+          )}
+          {showResult && result && (
+            <div>
+              <center className='header-text'>
+                <h1 className='h1-result'>Result</h1>
+              </center>
+              <center>
+                <div className='box-item'>
+
+                  <img className='item-img' src={`/icon/${result.animal}.png`} alt={result.animal} />
+                  <strong><p className='p-result'>❖ {result.animal.charAt(0).toUpperCase() + result.animal.slice(1)} ❖</p></strong>
+                </div>
+                <div className='container-description'>
+                  <h3 className='text-description'>Description :</h3>
+                </div>
+                {categoryData && (
+                  <div>
+                    <p>you have a similar personality {result.animal} because you have a habit :</p>
+                    <p>{categoryData.description_en}</p>
+                  </div>
+                )}
+              </center>
             </div>
-            <ul className='detail-des'>
-              <br /><br />
-              {mostAnimalData.map((item, index) => (
-                <li key={index}>
-                {item.choiceTh} 
-                </li>))}
-            </ul>
-          </center>
-        </div>
+          )}
+        </>) : (
+        <>
+          {loading && (
+            <div className="loading-popup">
+              <center>
+                <h2 className='loader-line'>Loading...</h2>
+              </center>
+            </div>
+          )}
+          {showResult && result && (
+            <div>
+              <center className='header-text'>
+                <h1 className='h1-result'>ผลลัพธ์</h1>
+              </center>
+              <center>
+                <div className='box-item'>
+
+                  <img className='item-img' src={`/icon/${result.animal}.png`} alt={result.animal} />
+                  <strong><p className='p-result'>❖ {result.animal.charAt(0).toUpperCase() + result.animal.slice(1)} ❖</p></strong>
+                </div>
+                <div className='container-description'>
+                  <h3 className='text-description'>คำอธิบาย :</h3>
+                  
+                </div>
+                {categoryData && (
+                  <div>
+                    <p>คุณเปลียบเหมือน {result.animal} เพราะว่าคุณมีนิสัยที่ :</p>
+                    <p>{categoryData.description_th}</p>
+                  </div>
+                )}
+              </center>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

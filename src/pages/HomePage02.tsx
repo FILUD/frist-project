@@ -31,6 +31,8 @@ const HomePage2: React.FC = () => {
     return array;
   };
 
+
+
   //selection manage
   const handleCharacterSelection = (characterId: number, categoryId: string, choiceTh: string) => {
     setSelectedCharacters((prevSelected) => {
@@ -91,32 +93,75 @@ const HomePage2: React.FC = () => {
     localStorage.setItem('leastAnimal', JSON.stringify(selectedCharacters));
   }, [selectedCharacters]);
 
-  return (
-    <div>
-      <center>
-        <br />
-        <br />
-        <p className="text-01-home">Select 5 descriptions that you consider <strong>least like you</strong></p>
-        <br />
+  //change language
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
 
-        <div className="item-container">
-          {characterData.map((character) => (
-            <div className="item-wrapper" key={character.id}>
-              <button
-                className={`item-least ${selectedCharacters.some((c) => c.id === character.id) ? 'checked-least' : 'default'}`}
-                onClick={() => handleCharacterSelection(character.id, character.categoryId, character.choiceTh)}
-              >
-                {character.choiceTh}
-              </button>
-            </div>
-          ))}
-        </div>
-        <br />
-      </center>
-      <div className="div-button-next">
-        <button className="button-next" onClick={handleNavigation}><strong>Result ➤</strong></button>
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+  }, [selectedLanguage]);
+
+  return (
+    <>
+    {selectedLanguage === 'en' ? (
+    <div>
+      <div>
+        <center>
+          <br />
+          <br />
+          <p className="text-01-home">Select 5 descriptions that you consider <strong>Least like you</strong></p>
+          <br />
+
+          <div className="item-container">
+            {characterData.map((character) => (
+              <div className="item-wrapper" key={character.id}>
+                <button
+                  className={`item-least ${selectedCharacters.some((c) => c.id === character.id) ? 'checked-least' : 'default'}`}
+                  onClick={() => handleCharacterSelection(character.id, character.categoryId, character.choiceTh)}
+                >
+                  {character.choiceEn}
+                </button>
+              </div>
+            ))}
+          </div>
+          <br />
+        </center>
       </div>
-    </div>
+      <footer className="div-button-next">
+        <button className="button-next" onClick={handleNavigation}><strong>Next ➤</strong></button>
+      </footer> 
+      </div>
+ ) : (  
+  <div>
+      
+  <div>
+    <center>
+      <br />
+      <br />
+      <p className="text-01-home">เลือก 5 อย่างที่ <strong>ไม่ใช่ตัวคุณ</strong></p>
+      <br />
+
+      <div className="item-container">
+        {characterData.map((character) => (
+          <div className="item-wrapper" key={character.id}>
+            <button
+              className={`item-least ${selectedCharacters.some((c) => c.id === character.id) ? 'checked-least' : 'default'}`}
+              onClick={() => handleCharacterSelection(character.id, character.categoryId, character.choiceTh)}
+            >
+              {character.choiceTh}
+            </button>
+          </div>
+        ))}
+      </div>
+      <br />
+    </center>
+  </div>
+  <footer className="div-button-next">
+    <button className="button-next" onClick={handleNavigation}><strong>ต่อไป ➤</strong></button>
+  </footer> 
+  </div>
+  )}
+    
+      </>    
   );
 };
 

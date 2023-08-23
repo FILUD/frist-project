@@ -49,10 +49,31 @@ Link-welcome {
   text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
+.font-size-addphone {
+  margin-top: 10%;
+  width: 90%;
+  height: 8vh;
+  background-color: #2B92D4;
+  border-radius: 15px;
+  font-size: 23px;
+  color: white;
+  border: white solid 2px;
+  transition: 1.5s;
+}
+
+.font-size-addphone:hover {
+  color: #2B92D4;
+  border: #2B92D4 solid 2px;
+  background-color: white;
+
+  .text-btn-start {
+    color: #2B92D4;
+  }
+}
 
 .button-start {
   margin-top: 10%;
-  width: 100%;
+  width: 90%;
   height: 8vh;
   background-color: #2B92D4;
   border-radius: 15px;
@@ -60,6 +81,16 @@ Link-welcome {
   color: white;
   border: white solid 2px;
   transition: 1.5s;
+}
+
+.btn-position {
+  margin-top: 10px;
+}
+.btn-en{
+  width: 70%;
+}
+.position-th {
+  margin-top: -30px;
 }
 
 .button-start:hover {
@@ -103,5 +134,7 @@ Link-welcome {
 .tag-p-home {
   font-size: 3vw;
 }
+
+
 
 }

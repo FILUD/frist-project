@@ -12,11 +12,10 @@ import ResultPage from './pages/ResultPage';
 import Dashbord from './pages/Dashbord';
 import HistoryPage from './pages/HistoryPage';
 import DetailPage from './pages/DetailPage';
+import Scrollab from './components/Scrollab';
 
 import TestApi from './pages/testapi';
 
-
-import Navigation from './components/Navigation';
 import axios from 'axios';
 
 function App() {
@@ -32,7 +31,7 @@ function App() {
       </header>
       <BrowserRouter>
         <div>
-          <Navigation />
+          <Scrollab />
           <Routes>
 
             <Route path="/" element={<Navigate to="/login" />} />

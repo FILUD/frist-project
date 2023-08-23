@@ -15,25 +15,52 @@ const HistoryPage = () => {
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().slice(0, 10));
 
 
+  //for next page
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 20;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const itemsToShow = data.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  //next and back data history
+  const handleNextPageClick = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
+  const handlePreviousPageClick = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+
   const fetchData = async () => {
     try {
-      const email = localStorage.getItem('userEmail'); 
+      const email = localStorage.getItem('userEmail');
       if (email) {
         const response = await fetch(`http://localhost:8080/api/get/history?email=${email}`);
         const responseData = await response.json();
-        setData(responseData); 
-        console.log(responseData);
+
+        // Assuming responseData is an array of objects with a "createDate" property
+        const sortedData = responseData.sort((a: { createDate: string | number | Date; }, b: { createDate: string | number | Date; }) => {
+          const timeA = new Date(a.createDate).getTime();
+          const timeB = new Date(b.createDate).getTime();
+          return timeA - timeB; // Sorting in ascending order
+        });
+
+        setData(sortedData);
+        console.log(sortedData);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
- 
+
 
   const handleStartDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStartDate = event.target.value;
@@ -47,33 +74,33 @@ const HistoryPage = () => {
         fetchData();
         return;
       }
-  
+
       const email = localStorage.getItem('userEmail'); // Retrieve email from local storage
-  
+
       if (email) {
         const response = await fetch(`http://localhost:8080/api/get/history?email=${email}&cacheBust=${Date.now()}`);
         const responseData = await response.json();
-        
+
         // Filter the data based on the specified date range
         const filteredData = responseData.filter((item: { createDate: string | number | Date; }) => {
           const itemDate = new Date(item.createDate);
           const startDateObj = new Date(start);
           const endDateObj = new Date(end);
-  
+
           // Set time to the beginning and end of the day
           startDateObj.setHours(0, 0, 0, 0);
           endDateObj.setHours(23, 59, 59, 999);
-  
+
           return itemDate >= startDateObj && itemDate <= endDateObj;
         });
-  
+
         setData(filteredData);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  
+
 
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -83,7 +110,7 @@ const HistoryPage = () => {
       hour: '2-digit',
       minute: '2-digit'
     };
-  
+
     const formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
     return `${formattedDate}`;
   };
@@ -110,7 +137,7 @@ const HistoryPage = () => {
           const response = await fetch(`http://localhost:8080/api/delete/history?historyId=${historyId}`, {
             method: 'DELETE'
           });
-  
+
           if (response.ok) {
             Swal.fire(
               'Deleted!',
@@ -127,49 +154,131 @@ const HistoryPage = () => {
       }
     });
   };
-  
+
+  //change language
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+  }, [selectedLanguage]);
 
   return (
     <div>
-      <div className="filter-box-history">
-        <label className='text-my-history'>My history : </label>
-        <label className='text-face-filter'>Filter by Date : </label>
-        <input
-          className='filter-input'
-          type="date"
-          value={startDate}
-          onChange={handleStartDateChange}
-        />
-      </div>
-      <div className="container-history">
-        <ul className="list-history">
-          {data.length === 0 ? (
-            <li className="no-result-history">
-              <img src="/icon/no-result.png" alt="No result icon" /><br />
-              No result
-            </li>
-          ) : (
-            data.map(item => (
-              <li key={item.historyId} className="item-history">
-               <Link style={{textDecoration: 'none'}} to={`/history/detail?historyId=${item.historyId}`} key={item.historyId} className="item-history">
-                  {categoryToAnimal[item.categoryId]}
-                </Link>
-                <span className="date-history">
-                  {formatDate(item.createDate)}
-                </span>
-                <center>
-                <img className='delete-icon' 
-                src="/icon/icon-delete.png" 
-                alt="Delete icon"
-                onClick={() => handleDeleteItem(item.historyId)} /></center>
-              </li>
-            ))
-          )}
-        </ul>
-      </div>
+      {selectedLanguage === 'en' ? (
+        <>
+          <div className="filter-box-history">
+            <label className='text-my-history'>My history : </label>
+            <label className='text-face-filter'>Filter by Date : </label>
+            <input
+              className='filter-input'
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+            />
+          </div>
+          <div className="container-history">
+            <ul className="list-history">
+              {itemsToShow.length === 0 ? (
+                <li className="no-result-history">
+                  <img src="/icon/no-result.png" alt="No result icon" /><br />
+                  No result
+                </li>
+              ) : (
+                itemsToShow.map(item => (
+                  <li key={item.historyId} className="item-history">
+                    <Link
+                      to={`/history/detail?historyId=${item.historyId}&category_id=${item.categoryId}`}
+                      style={{ textDecoration: 'none' }}
+                      key={item.historyId}
+                      className="item-history"
+                    >
+                      {categoryToAnimal[item.categoryId]}
+                    </Link>
+                    <span className="date-history">
+                      {formatDate(item.createDate)}
+                    </span>
+                    <center>
+                      <img className='delete-icon'
+                        src="/icon/icon-delete.png"
+                        alt="Delete icon"
+                        onClick={() => handleDeleteItem(item.historyId)} />
+                    </center>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+
+          <div className="page-number">
+            Page {currentPage} of {totalPages}
+          </div>
+
+          <div className="center-button-container">
+            <button className='btn-back-history' onClick={handlePreviousPageClick}>Previous Page</button>
+            <button className='btn-next-history' onClick={handleNextPageClick}>Next Page</button>
+          </div>
+
+        </>
+      ) : (
+        <>
+          <div className="filter-box-history">
+            <label className='text-my-history'>ประวัติของ ฉัน : </label>
+            <label className='text-face-filter'>กรองด้วยวันที่ : </label>
+            <input
+              className='filter-input'
+              type="date"
+              value={startDate}
+              onChange={handleStartDateChange}
+            />
+          </div>
+          <div className="container-history">
+            <ul className="list-history">
+              {itemsToShow.length === 0 ? (
+                <li className="no-result-history">
+                  <img src="/icon/no-result.png" alt="No result icon" /><br />
+                  No result
+                </li>
+              ) : (
+                itemsToShow.map(item => (
+                  <li key={item.historyId} className="item-history">
+                    <Link
+                      to={`/history/detail?historyId=${item.historyId}&category_id=${item.categoryId}`}
+                      style={{ textDecoration: 'none' }}
+                      key={item.historyId}
+                      className="item-history"
+                    >
+                      {categoryToAnimal[item.categoryId]}
+                    </Link>
+                    <span className="date-history">
+                      {formatDate(item.createDate)}
+                    </span>
+                    <center>
+                      <img className='delete-icon'
+                        src="/icon/icon-delete.png"
+                        alt="Delete icon"
+                        onClick={() => handleDeleteItem(item.historyId)} />
+                    </center>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+
+          <div className="page-number">
+            หน้า {currentPage} / {totalPages}
+          </div>
+
+          <div className="center-button-container">
+            <button className='btn-back-history' onClick={handlePreviousPageClick}>ย้อนกลับ</button>
+            <button className='btn-next-history' onClick={handleNextPageClick}>หน้าต่อไป</button>
+          </div>
+
+        </>
+      )}
     </div>
   );
-  
+
+
 };
 
 export default HistoryPage;

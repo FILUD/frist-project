@@ -10,9 +10,6 @@
     padding: 5vw;
 }
 
-
-
-
 .item-wrapper-detail {
     display: inline-flex;
     margin-right: 5px;
@@ -56,7 +53,8 @@
 
 .h1-detail {
     text-align: center;
-    margin-top: -4vh;
+    margin-top: -80px;
+
 }
 
 .item-img-detail {

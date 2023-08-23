@@ -17,7 +17,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setLoggedIn }) => {
   const clientId = '936930992538-6pkkdh1hf45lacko0scjo0oh2gtc3jam.apps.googleusercontent.com';
 
   const [profile, setProfile] = useState<any>(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initClient = () => {
@@ -71,25 +71,44 @@ const LoginPage: React.FC<LoginPageProps> = ({ setLoggedIn }) => {
     setLoggedIn(false);
   };
 
-
   const [loginError, setLoginError] = useState('');
 
+  //change language
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+  }, [selectedLanguage]);
+
   return (
-    <div className='bg-color'>
-      <div className='login-container'>
-        <div className='box-text'>
-          <h1 className='h1-login'>Welcome</h1><br />
-          <p>
-            Discover Your Inner Animal: <br />
-            Falcon, Bear, Rat, or Cow<br />
-            Unleash Your True Personality!
-          </p>
-          <button className='btn-try'>Try it</button>
+    <div className='bg-color body-login'>
+      {selectedLanguage === 'en' ? (
+        <div className='login-container'>
+          <div className='box-text'>
+            <p className='h1-login'>Welcome</p><br />
+            <p>
+              Discover Your Inner Animal: <br />
+              Falcon, Bear, Rat, or Cow<br />
+              Unleash Your True Personality!
+            </p>
+            <button className='btn-try'>Try it</button>
+          </div>
+        </div>) : (
+        <div className='login-container'>
+          <div className='box-text'>
+            <h1 className='h1-login'>ยินดีต้อนรับ</h1><br />
+            <p>
+            ค้นพบสัตว์ภายในของคุณ ว่าจะเป็น: <br /> 
+            เหยี่ยว หมี หนู หรือวัว <br />
+            ปลดปล่อยบุคลิกที่แท้จริงของคุณ!
+            </p>
+          </div>
         </div>
-      </div>
+      )}
+      <div className='container-form'>
       <div className='login-form'>
         <center>
-          <br /><br /><h1 className='h101-login'>Login</h1><br /><br /><br /><br />
+          <br /><br /><p className='h101-login'>Login</p><br /><br /><br /><br />
 
           <GoogleLogin
             className='google-button'
@@ -99,13 +118,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ setLoggedIn }) => {
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
             isSignedIn={true}
-          /><br />
-          <FacebookLoginButton /><br />
 
+          /><br /><br /><br />
         </center>
         {loginError && <p style={{ color: 'white' }}>{loginError}</p>}
+
       </div>
+      </div>
+
     </div>
+
   );
 };
 

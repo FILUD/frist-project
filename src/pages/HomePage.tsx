@@ -102,9 +102,16 @@ const HomePage: React.FC = () => {
     localStorage.setItem('mostAnimal', JSON.stringify(selectedCharacters));
   }, [selectedCharacters]);
 
+  //change language
+  const [selectedLanguage, setSelectedLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
+
+  useEffect(() => {
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+  }, [selectedLanguage]);
   
   return (
-
+    <>
+    {selectedLanguage === 'en' ? (
     <div>
       <div>
         <center>
@@ -120,7 +127,7 @@ const HomePage: React.FC = () => {
                   className={`item-most ${selectedCharacters.some((c) => c.id === character.id) ? 'checked-most' : 'default'}`}
                   onClick={() => handleCharacterSelection(character.id, character.categoryId, character.choiceTh)}
                 >
-                  {character.choiceTh}
+                  {character.choiceEn}
                 </button>
               </div>
             ))}
@@ -130,8 +137,40 @@ const HomePage: React.FC = () => {
       </div>
       <footer className="div-button-next">
         <button className="button-next" onClick={handleNavigation}><strong>Next ➤</strong></button>
-      </footer>
-    </div>
+      </footer> 
+      </div>
+ ) : (  
+  <div>
+      
+  <div>
+    <center>
+      <br />
+      <br />
+      <p className="text-01-home">เลือก 10 อย่างที่บ่งบอก <strong>ความเป็นตัวคุณ</strong></p>
+      <br />
+
+      <div className="item-container">
+        {characterData.map((character) => (
+          <div className="item-wrapper" key={character.id}>
+            <button
+              className={`item-most ${selectedCharacters.some((c) => c.id === character.id) ? 'checked-most' : 'default'}`}
+              onClick={() => handleCharacterSelection(character.id, character.categoryId, character.choiceTh)}
+            >
+              {character.choiceTh}
+            </button>
+          </div>
+        ))}
+      </div>
+      <br />
+    </center>
+  </div>
+  <footer className="div-button-next">
+    <button className="button-next" onClick={handleNavigation}><strong>ต่อไป ➤</strong></button>
+  </footer> 
+  </div>
+  )}
+    
+      </>    
   );
 };
 
